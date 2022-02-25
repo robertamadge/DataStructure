@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type GradeAndSubject struct {
 	StudentName string
@@ -10,7 +12,7 @@ type GradeAndSubject struct {
 }
 
 func main() {
-	gradeAndSubjectList := GradeAndSubjectList{}
+	gradeAndSubjectList := &GradeAndSubjectList{}
 
 	roberta := GradeAndSubject{"Roberta", 10.00, "POO", "Carlos"}
 	greg := GradeAndSubject{"Greg", 6.00, "POO", "Carlos"}
@@ -23,10 +25,11 @@ func main() {
 	gradeAndSubjectList.Append(vinicius)
 
 	//TODO
-	gradeAndSubjectSearch := gradeAndSubjectList.Search("roberta")
-
-	fmt.Println("A nota do aluno %s é %f na matéria %s do professor %s.", gradeAndSubjectSearch)
+	search := gradeAndSubjectList.Search("Roberta")
+	fmt.Printf("A nota do aluno %s é %.2f na matéria %v do professor %v.",
+		search.StudentName, search.Grade, search.NameSubject, search.Teacher)
 
 	gradeAndSubjectList.Delete("greg")
-	//	gradeAndSubjectList.Display()
+
+	//gradeAndSubjectList.Display()
 }
