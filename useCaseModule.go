@@ -53,9 +53,9 @@ func (gl *GradesList) Search(studentName string) Grades {
 
 }
 
-func (gl *GradesList) Remove(studentName string) {
-	//Validar se o primeiro item da lista já e o que eu to buscando
-	if gl.Head.Value.StudentName == studentName {
+func (gl *GradesList) Delete(grade float64) {
+	//Validar se o primeiro item da lista já e o que eu to buscando, trocar pelo próximo
+	if gl.Head.Value.Grade == grade {
 		gl.Head = gl.Head.Next
 		return
 	}
@@ -64,20 +64,20 @@ func (gl *GradesList) Remove(studentName string) {
 	previousValue := gl.Head
 	node := gl.Head.Next
 
-	//Iterar entre os nodes ate encontrar para remover
+	//Iterar entre os nodes ate encontrar para remover, novo valor para checar != nil
 	for node != nil {
-		//encontra meu nome
-		if node.Value.StudentName == studentName {
-			// previousValue anterior vai apontar para o  proximo
+		//encontra minha grade
+		if node.Value.Grade == grade {
+			// previousValue anterior vai apontar para o  proximo mas eu to deletando entao ele vai apontar para o outro e exclui o que eu encontrei
 			previousValue.Next = node.Next
 			break
 		}
-		//troca
+		// faço troca, caso não econtre
 		previousValue = node
 		node = node.Next
 	}
 
-	//validar se o node que eu cenontrei é o tail e apontar ele para o anterior
+	//validar se o node que eu encontrei é o tail e apontar ele para o anterior, O encontrado é o node, preciso apontar ele para o anterior e acaba
 	if gl.Tail == node {
 		gl.Tail = previousValue
 	}

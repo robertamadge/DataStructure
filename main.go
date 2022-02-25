@@ -22,7 +22,7 @@ func main() {
 	grade := gradesList.Search("roberta")
 	fmt.Println("A nota do aluno ", roberta.StudentName, "e sua nota é: ", grade)
 
-	gradesList.Remove("greg")
+	gradesList.Delete(6.00)
 
 	gradesList.Display()
 }
