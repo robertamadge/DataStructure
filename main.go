@@ -2,27 +2,31 @@ package main
 
 import "fmt"
 
-type Grades struct {
-	StudentName  string
-	Grade        float64
-	Registration int
+type GradeAndSubject struct {
+	StudentName string
+	Grade       float64
+	NameSubject string
+	Teacher     string
 }
 
 func main() {
-	gradesList := GradesList{}
+	gradeAndSubjectList := GradeAndSubjectList{}
 
-	roberta := Grades{"Roberta", 10.00, 123456}
-	carlos := Grades{"Carlos", 5.00, 789101}
-	greg := Grades{"Greg", 6.00, 121314}
+	roberta := GradeAndSubject{"Roberta", 10.00, "POO", "Carlos"}
+	greg := GradeAndSubject{"Greg", 6.00, "POO", "Carlos"}
+	nando := GradeAndSubject{"Fernando", 8.00, "POO", "Carlos"}
+	vinicius := GradeAndSubject{"Vinicius", 2.00, "POO", "Carlos"}
 
-	gradesList.Append(roberta)
-	gradesList.Append(carlos)
-	gradesList.Append(greg)
+	gradeAndSubjectList.Append(roberta)
+	gradeAndSubjectList.Append(greg)
+	gradeAndSubjectList.Append(nando)
+	gradeAndSubjectList.Append(vinicius)
 
-	grade := gradesList.Search("roberta")
-	fmt.Println("A nota do aluno ", roberta.StudentName, "e sua nota é: ", grade)
+	//TODO
+	gradeAndSubjectSearch := gradeAndSubjectList.Search("roberta")
 
-	gradesList.Delete(6.00)
+	fmt.Println("A nota do aluno %s é %f na matéria %s do professor %s.", gradeAndSubjectSearch)
 
-	gradesList.Display()
+	gradeAndSubjectList.Delete("greg")
+	//	gradeAndSubjectList.Display()
 }

@@ -1,96 +1,90 @@
 package main
 
-import "fmt"
-
-//Head é o primeiro elemento, Tail é o ultimo elemento
-type GradesList struct {
+//GradeAndSubjectList guarda o Head que é o primeiro elemento da lista e Tail, o último elemento
+type GradeAndSubjectList struct {
 	Head *Node
 	Tail *Node
 }
 
 type Node struct {
 	//Value guarda um objeto na memoria do tipo grade
-	Value Grades
+	Value GradeAndSubject
 	//Next é o próximo elemento e é um ponteiro do Node
 	Next *Node
 }
 
-//Append adiciona um novo valor na GradesList
-func (gl *GradesList) Append(grades Grades) {
-	//node recebe um novo Value to tipo Grades
-	node := &Node{Value: grades}
-	//Verifica se a gradesList está vazia e aponto o Head dela para esse Value do Node
+//Append adiciona um novo valor na GradeAndSubjectList(reference)
+func (gl *GradeAndSubjectList) Append(gs GradeAndSubject) {
+	//node recebe um novo Value to tipo GradesAndSubject
+	node := &Node{Value: gs}
+	//Verifica se a GradeAndSubjectList está vazia e aponto o Head dela para esse Value do Node
 	if gl.Head == nil {
 		gl.Head = node
 	}
-	// Verifica se o Tail está vazio e se estiver eu pego o Next dele e aponto para o novo Value do Node
+	// Verifica se o Tail não está vazio e pego o Next dele e aponto para o novo node
 	if gl.Tail != nil {
 		gl.Tail.Next = node
 	}
-	//Tail passa a ser o novo node
+	//Se não, Tail passa a ser o novo node
 	gl.Tail = node
-
 }
 
-//Search faz uma busca do nome do estudante para achar sua Grade
-func (gl *GradesList) Search(studentName string) Grades {
-	//Começa com o primeiro elemento da GradesList
+//Search faz uma busca com o nome do estudante para achar sua nota e subject
+func (gl *GradeAndSubjectList) Search(studentName string) GradeAndSubject {
+	//Busca pelo começo da lista
 	node := gl.Head
-	//Quando chegar no break o looping para
+	//Se a lista não estiver vazia, verifica se o nome do estudante é igual ao que eu procuro e break
 	for node != nil {
 		if node.Value.StudentName == studentName {
 			break
 		}
-		//próximo elemento
+		//Se não, verifico o próximo elemento
 		node = node.Next
 	}
-
+	//Retorno o valor
 	if node != nil {
 		return node.Value
 	}
-	//Não encontramos ninguem com esse studentName
-	return Grades{}
-
+	//Se não encontramos ninguem com esse studentName
+	return GradeAndSubject{}
 }
 
-func (gl *GradesList) Delete(grade float64) {
+//Delete quero deletar a nota do estudante que informar
+func (gl *GradeAndSubjectList) Delete(studentName string) {
 	//Validar se o primeiro item da lista já e o que eu to buscando, trocar pelo próximo
-	if gl.Head.Value.Grade == grade {
+	if gl.Head.Value.StudentName == studentName {
 		gl.Head = gl.Head.Next
 		return
 	}
-
-	//busca na lista
+	//se não for o primeiro continuo buscando na lista.  previousValue é o primeiro que achamos mas que não queremos
 	previousValue := gl.Head
+	//o valor seguinte do previousValue
 	node := gl.Head.Next
 
-	//Iterar entre os nodes ate encontrar para remover, novo valor para checar != nil
+	//Iterar entre os nodes ate encontrar para remover. Checa se o novo valor != nil
 	for node != nil {
-		//encontra minha grade
-		if node.Value.Grade == grade {
-			// previousValue anterior vai apontar para o  proximo mas eu to deletando entao ele vai apontar para o outro e exclui o que eu encontrei
+		//encontra o nome do estudante
+		if node.Value.StudentName == studentName {
+			// previousValue anterior vai apontar para o  proximo, deletando ele e apontando para o proximo. Metodo de exclusao
 			previousValue.Next = node.Next
 			break
 		}
-		// faço troca, caso não econtre
+		// Se não encontrar faço uma troca
 		previousValue = node
 		node = node.Next
 	}
-
-	//validar se o node que eu encontrei é o tail e apontar ele para o anterior, O encontrado é o node, preciso apontar ele para o anterior e acaba
+	//validar se o nome que eu encontrei é o tail e apontar ele para o anterior
 	if gl.Tail == node {
 		gl.Tail = previousValue
 	}
-
 }
 
-//Quero iterar entre a Gradeslist e mostrar os resutados encontrados
-func (gl *GradesList) Display() {
-	node := gl.Head
-	//Cada um dos nodes tem o próximo valor e o ultimo é o nil então ele sai do looping e acaba
-	for node != nil {
-		fmt.Println(node.Value.Grade)
-		node = node.Next
-	}
-
-}
+// //Quero iterar entre a GradeAndSubjectList e mostrar os resutados encontrados -- Tirar comentario ctrl + 7
+// func (gl *GradeAndSubjectList) Display() {
+// 	node := gl.Head
+// 	//Cada um dos nodes tem o próximo valor e o ultimo é o nil então ele sai do looping e acaba
+// 	for node != nil {
+// 		fmt.Println(node.Value)
+// 		node = node.Next
+// 	}
+// }
